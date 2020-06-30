@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   handleLogin(){
     if(this.username === 'hector' && this.password === 'pwd'){
       this.invalidLogin = false
-      this.router.navigate(['welcome'])
+      this.router.navigate(['welcome', this.username])
     }else{
       this.invalidLogin = true
     }
