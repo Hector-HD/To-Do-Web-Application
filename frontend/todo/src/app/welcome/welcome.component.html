@@ -9,3 +9,8 @@ Go to To Do's: <a routerLink="/todos">Here</a>
 
     <button (click)="getWelcome()" class="btn btn-success">Welcome</button>
 </div>
+
+<div class="container" *ngIf="beanMessage">
+    <h2>Your Message: </h2>
+    {{beanMessage}}
+</div>
