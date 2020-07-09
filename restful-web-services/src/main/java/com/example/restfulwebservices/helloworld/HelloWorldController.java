@@ -1,4 +1,4 @@
-package com.example.restfulwebservices;
+package com.example.restfulwebservices.helloworld;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ public class HelloWorldController {
 	//hello-world-bean
 	@GetMapping(path="/hello-world-bean")
 	public HelloWorldBean helloWorldBean() {
-		throw new RuntimeException("Erro Hector");
+		throw new RuntimeException("Error Hector");
 	}
 	
 	@GetMapping(path="/hello-world/path-variable/{name}")
