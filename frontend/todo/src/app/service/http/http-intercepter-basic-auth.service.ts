@@ -20,6 +20,6 @@ export class HttpIntercepterBasicAuthService implements HttpInterceptor{
     }
     )
 
-    return next.handle(request);1
+    return next.handle(request);
   }
 }
