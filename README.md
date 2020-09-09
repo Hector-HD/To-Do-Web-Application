@@ -10,7 +10,7 @@ After logging in the user is directed to the welcome page.
 ![](images/welcome.png)
 
 ### To-Do-List
-User is able to go view the list of To Do's.
+User is able to go view the list of To Do's.          
 ![](images/todoList.png)
 
 ### Add To-Do
