@@ -1,81 +1,73 @@
-import { API_URL } from './../app.constants';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {map} from 'rxjs/operators';
-
-export const TOKEN = 'token'
-export const AUTHENTICATED_USER = 'authenticaterUser'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BasicAuthenticationService {
+
+export class BasicAuthenticationService{
 
   constructor(private http: HttpClient) { }
 
-  executeJWTAuthenticationService(username, password) {
-    
-    return this.http.post<any>(
-      `${API_URL}/authenticate`,{
-        username,
-        password
-      }).pipe(
-        map(
-          data => {
-            sessionStorage.setItem(AUTHENTICATED_USER, username);
-            sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
-            return data;
-          }
-        )
-      );
-    //console.log("Execute Hello World Bean Service")
+  authenticate(username, password){
+    if(username === 'hector' && password === 'dummy'){
+      sessionStorage.setItem('authenticatedUser', username);
+      return true;
+    }
+    return false;
   }
 
-
-  executeAuthenticationService(username, password) {
-    
+  executeBasicAuthenticationBeanService(username, password){
+   
     let basicAuthHeaderString = 'Basic ' + window.btoa(username + ':' + password);
+    {
+      Authorization: basicAuthHeaderString
+    }
 
     let headers = new HttpHeaders({
-        Authorization: basicAuthHeaderString
-      })
+      Authorization: basicAuthHeaderString
+    })
 
-    return this.http.get<AuthenticationBean>(
-      `${API_URL}/basicauth`,
-      {headers}).pipe(
-        map(
-          data => {
-            sessionStorage.setItem(AUTHENTICATED_USER, username);
-            sessionStorage.setItem(TOKEN, basicAuthHeaderString);
-            return data;
-          }
-        )
-      );
-    //console.log("Execute Hello World Bean Service")
+    return this.http.get<AuthenticationBean>(`http://localhost:8080/basicauth`,
+    {
+      headers
+    }).pipe(
+      map(
+        data => {
+          sessionStorage.setItem('authenticatedUser', username);
+          sessionStorage.setItem('token', basicAuthHeaderString);
+          return data;
+        }
+      )
+    );
   }
 
-
-  getAuthenticatedUser() {
-    return sessionStorage.getItem(AUTHENTICATED_USER)
+  getAuthenticateUser(){
+    return sessionStorage.getItem('authenticatedUser');
   }
 
-  getAuthenticatedToken() {
-    if(this.getAuthenticatedUser())
-      return sessionStorage.getItem(TOKEN)
+  getAuthenticateToken(){
+    if(this.getAuthenticateUser()){
+      return sessionStorage.getItem('token');
+    }
   }
-
-  isUserLoggedIn() {
-    let user = sessionStorage.getItem(AUTHENTICATED_USER)
-    return !(user === null)
+  
+  isUserLoggedIn(){
+    let user = sessionStorage.getItem('authenticatedUser');
+    return !(user === null);
   }
 
   logout(){
-    sessionStorage.removeItem(AUTHENTICATED_USER)
-    sessionStorage.removeItem(TOKEN)
+    sessionStorage.removeItem('authenticatedUser');
+    sessionStorage.removeItem('token');
   }
-
 }
+
 
 export class AuthenticationBean{
-  constructor(public message:string) { }
+  constructor(public message: string){
+
+  }
 }
+
